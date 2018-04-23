@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block login %}
+    <div class="col-lg-6 col-lg-offset-2">
+    <h3>Registration</h3>
+        <form  role="form" class="" action="{% url 'register' %}" method="post">
+             <div class="form-group">
+            {% csrf_token %}
+            <label for="username">Username</label>
+                 <input class="form-control" {{ form.username}} </div>
+            <div class="form-group">
+<label for="username">Password</label>
+                <input class="form-control" {{ form.password1}}
+            </br>
+    <label for="username">Password confirmation</label>
+                  <input class="form-control" {{ form.password2}} </br>
+    <div class="form-group">
+                 <input class="btn btn-primary btn-md" role="button" type="submit" value="Register"></div></div>
+        </form>
+    
+{% if error %}
+<div class="alert alert-danger">
+                        </br>
+                            <strong>Error</strong> {{ error }}
+                        </div>
+                    {% endif %}
+</div>
+{% endblock %}
