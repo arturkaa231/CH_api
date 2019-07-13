@@ -1,0 +1,219 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+    <title>ПП конфигуратор</title>
+    <!-- Подключаем css--->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css" type="text/css" />
+        <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="row"  >
+
+    <div class="navbar-header ">
+        <div class="col-lg-1 ">
+        <a href="{% url 'configurator' %}" class="navbar-brand">Конфигуратор</a>
+        </div>
+    </div>
+
+
+           {%  if username %}
+
+               <div class="col-lg-1 col-lg-offset-6">
+               <div class="col-lg-offset-8"><ul class="nav navbar-nav"> <li><a href="{% url "logout" %}">Выйти({{ username }})</a></li></ul></div>
+
+               </div>
+
+            {% else  %}
+                <div class="col-lg-offset-8"><ul class="nav navbar-nav"> <li><a href="{% url "login" %}">Войти</a></li></ul></div>
+            {% endif %}
+        </div>
+     </div>
+</nav>
+{%  if username %}
+<div class="container-fluid">
+        <div class="row"  >
+            <div class="col-lg-offset-1">
+<h4>Параметры ПП и максимальное количество значений для каждого из них:</h4>
+                    <form  role="form" id= "form" method="post">
+                    {%  csrf_token %}
+
+                    <div class="row">
+                         <div class="form-check col-lg-2">
+  <input class="form-check-input" type="checkbox" name='source_medium' id="source_medium" >
+  <label class="form-check-label" for="exampleRadios1">
+    source_medium
+  </label>
+                         </div>
+                             <div class="col-lg-1">
+                             <input class="form-control  form-control-sm" type="number" name="max_source_medium" id="max_source_medium"></div>
+</div>
+                    </br>
+                        <div class="row">
+<div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'campaignName' id="campaignName" >
+  <label class="form-check-label" for="exampleRadios2">
+    campaignName
+  </label>
+</div>
+                        <div class="col-lg-1">
+                             <input class="form-control form-control-sm " type="number" name="max_campaignName" id="max_campaignName" ></div>
+                        </div>
+
+                        </br>
+                        <div class="row">
+                        <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'campaignKeyword' id="campaignKeyword" >
+  <label class="form-check-label" for="exampleRadios2">
+    campaignKeyword
+  </label>
+</div>
+                             <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_campaignKeyword" id="max_campaignKeyword"></div>
+                        </div>
+                    </br>
+                        <div class="row">
+                        <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'deviceType_standard' id="deviceType_standard" >
+  <label class="form-check-label" for="exampleRadios2">
+    deviceType_standard
+  </label>
+</div>
+                            <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_deviceType_standard" id="max_deviceType_standard"></div>
+                            </div>
+
+            </br>
+                        <div class="row">
+                        <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'day_of_week' id="day_of_week" >
+  <label class="form-check-label" for="exampleRadios2">
+    day_of_week
+  </label>
+</div>
+                            <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_day_of_week" id="max_day_of_week"></div>
+                        </div>
+        </br>
+                        <div class="row">
+                         <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'operatingSystemName' id="operatingSystemName" >
+  <label class="form-check-label" for="exampleRadios2">
+    operatingSystemName
+  </label>
+</div>
+                            <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_operatingSystemName" id="max_operatingSystemName"></div>
+                        </div>
+</br>
+                        <div class="row">
+                        <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'AdPosition' id="AdPosition" >
+  <label class="form-check-label" >
+    AdPosition
+  </label>
+</div>
+                            <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_AdPosition" id="max_AdPosition"></div>
+                        </div>
+</br>
+                        <div class="row">
+                        <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'campaignContent' id="campaignContent" >
+  <label class="form-check-label" for="exampleRadios2">
+    campaignContent
+  </label>
+</div>
+                             <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_campaignContent" id="max_campaignContent"></div>
+                        </div>
+
+                    </br>
+
+                            <div class="row">
+                        <div class="form-check  col-lg-2">
+  <input class="form-check-input" type="checkbox" name= 'visitLocalHour_period' id="visitLocalHour_period" >
+  <label class="form-check-label" for="exampleRadios2">
+    visitLocalHour_period
+  </label>
+</div>
+                                <div class="col-lg-1">
+                             <input class="form-control-sm form-control" type="number" name="max_visitLocalHour_period" id="max_visitLocalHour_period"></div>
+                        </div>
+<div class="row">
+                        <div class="form-group col-lg-2">
+                             <label>Минимальное количество сеансов:</label>
+                            <input id="min_visits" name="min_visits" value="20" class="form-control">
+                         </div>
+
+                        <div class="form-group  col-lg-2">
+                             <label>Максимальная длина комбинации параметров:</label>
+                            <input id="max_dims_in_comb" value="5" name="max_dims_in_comb" class="form-control">
+                         </div>
+    </br></br>
+                        <input class="btn btn-secondary" type="submit" id='submit' value="Установить параметры" />
+</div>
+                                </form>
+            </div>
+        </div>
+</div>
+            {% else %}
+                        <h3>Пожалуйста <a href="{%  url 'login'%}">войдите</a> или <a href="{%  url 'register'%}">зарегистируйтесь</a> если у вас еще нет аккаунта</h3>
+                    {% endif %}
+<script type="text/javascript" >
+
+
+
+$('#form').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!")  // sanity check
+    create_post();
+});
+
+
+
+
+function create_post() {
+
+    $.ajax({
+        url : "/apiv2/configurator/", // the endpoint
+        type : "POST", // http met
+        data : {visitLocalHour_period:$('#visitLocalHour_period').val(),max_visitLocalHour_period:$('#max_visitLocalHour_period').val(),max_source_medium: $('#max_source_medium').val(),max_campaignName: $
+        ('#max_campaignName').val(),max_campaignKeyword: $
+        ('#max_campaignKeyword')
+            .val(),
+        max_deviceType_standard: $('#max_deviceType_standard').val(),max_day_of_week: $('#max_day_of_week').val(),max_operatingSystemName: $('#max_operatingSystemName').val(),
+            max_AdPosition: $('#max_AdPosition').val(),max_campaignContent: $('#max_campaignContent').val(),source_medium: $('#source_medium').val(),campaignName: $('#campaignName').val(),campaignKeyword: $('#campaignKeyword').val(),
+        deviceType_standard: $('#deviceType_standard').val(),day_of_week: $('#day_of_week').val(),operatingSystemName: $('#operatingSystemName').val(),
+            AdPosition: $('#AdPosition').val(),campaignContent: $('#campaignContent').val(),min_visits: $('#min_visits').val(),max_dims_in_comb: $('#max_dims_in_comb').val()}, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            console.log(json); // log the returned json to the console
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+
+</script>
+</body>
+</html>
+

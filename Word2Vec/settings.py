@@ -12,8 +12,29 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 from datetime import datetime, timedelta, date, time as dt_time
 from celery.schedules import crontab
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 stas_api='https://api.smartanalytics.io/api/'
 DB='CHdatabase'
+api=""
+#DB='CHdatabase_test'
+run_task_path='/home/artur/CHapi/clickhouse/api'
+PP_params='params'
+configurator='/api/configurator/'
+headers = {
+            'Authorization': 'Token 9ef54a05e7db9f7e81adfa9c54e158b0a92d76ed',
+            'Content-Type': 'application/json'}
+list_of_attr_pars = ['campaignSource_last','marketing_source_last','source_medium_last','traffic_channel_last','AdGroupId_last',
+                     'AdCampaignId_last','AdKeywordId_last','AdBannerId_last','AdRegionId_last','AdRetargetindId_last','AdTargetId_last',
+                     'AdRegionName_last','AdGroupId_name_last','DRF_last','campaignName_last','AdCampaignId_name_last','campaignMedium_last',
+                     'campaignKeyword_last','AdKeywordId_name_last','AdPlacement_last','AdPositionRound_last','AvgImpressionPositionRound_last',
+                     'AdvertisingSystem_last','account_login_last','campaignContent_last','campaign_type_last','AdDeviceType_last',
+                     'AdPositionType_last','campaignSource_first','marketing_source_first','source_medium_first','traffic_channel_first',
+                     'AdGroupId_first','AdCampaignId_first','AdKeywordId_first','AdBannerId_first','AdRegionId_first','AdRetargetindId_first',
+                     'AdTargetId_first','AdRegionName_first','AdGroupId_name_first','DRF_first','campaignName_first','AdCampaignId_name_first',
+                     'campaignMedium_first','campaignKeyword_first','AdKeywordId_name_first','AdPlacement_first','AdPositionRound_first',
+                     'AvgImpressionPositionRound_first','AdvertisingSystem_first','account_login_first','campaignContent_first',
+                     'campaign_type_first','AdDeviceType_first','AdPositionType_first']
 BROKER_URL = 'redis://localhost:6379/1'
 # храним результаты выполнения задач так же в redis
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
@@ -22,7 +43,7 @@ CELERY_TASK_RESULT_EXPIRES = 7*86400  # 7 days
 # это нужно для мониторинга наших воркеров
 # место хранения периодических задач (данные для планировщика)
 #CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
-
+CORS_ORIGIN_ALLOW_ALL=True
 # CELERY SETTINGS
 CELERY_ENABLE_UTC = True
 CELERY_TIMEZONE = 'Europe/Moscow'
@@ -34,9 +55,13 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TRACK_STARTED = True
 #CELERY_RESULT_BACKEND = 'redis://'
 CELERY_SEND_EVENTS = True
+CELERY_IGNORE_RESULT = False # this is less important
 #CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
-CELERY_IMPORTS = ("api.tasks","api.tasks_test","api.tasks_test_v2")
-CELERY_DEFAULT_QUEUE = 'log_loader_queue'
+CELERY_IMPORTS = ("api.incoming_lead_task_prod","api.incoming_lead_task_test","api.tasks_hits_and_visits_prod","api.tasks_adstat_test","api.tasks_adstat_prod",
+                  "api.tasks_hits_and_visits_test","api.crm_task_prod","api.crm_task_test","api.run_task","api.task_vk_ads_test","api.task_vk_ads_prod",
+                  "api.task_mytarget_test","api.task_mytarget_prod","api.task_facebook_prod","api.task_facebook_test","api.task_demo_project_stat_prod")
+CELERY_DEFAULT_QUEUE = 'hits_and_visits_queue'
+CELERY_ALWAYS_EAGER=False
 #CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 CELERYCAM_EXPIRE_SUCCESS = timedelta(days=1)
 CELERYCAM_EXPIRE_ERROR = timedelta(days=3)
@@ -46,41 +71,105 @@ CELERY_QUEUES = {
 		"exchange": "default",
 		"binding_key": "default",
 	},
-	
-	'log_loader_queue': {
-		'exchange': 'log_loader_queue',
-		'routing_key': 'log_loader_queue',
+    'robot_queue': {
+		'exchange': 'robot_queue',
+		'routing_key': 'robot_queue',
 	},
-
+	'hits_and_visits_queue': {
+		'exchange': 'hits_and_visits_queue',
+		'routing_key': 'hits_and_visits_queue',
+	},
+    'adstat_queue': {
+		'exchange': 'adstat_queue',
+		'routing_key': 'adstat_queue',
+	},
+'integrations_queue': {
+		'exchange': 'integrations_queue',
+		'routing_key': 'integrations_queue',
+	},
 }
+
+sentry_sdk.init(
+    dsn="https://2259c756af514d8bb99d264f5bcb6d6d@sentry.io/1341720",
+    integrations=[DjangoIntegration()]
+)
 
 CELERYBEAT_SCHEDULE = {
     # crontab(hour=0, minute=0, day_of_week='saturday')
-		'CH_get_stat':{  # example: 'file-backup' 
-			'task': 'api.tasks.task_log_loader_main',  # example: 'files.tasks.cleanup' 
-			'schedule': crontab(minute='*/3'),
+		'CH_get_stat_prod':{  # example: 'file-backup'
+			'task': 'api.tasks_hits_and_visits_prod.task_log_loader_main_prod',  # example: 'files.tasks.cleanup' 
+			'schedule': crontab(minute='*/10'),
 			#'args': (),
-			'options': {'queue': 'log_loader_queue'},
-	},'ad_stat_loader':{
-                        'task':'api.tasks.task_adstat_loader',
-                        'schedule':crontab(minute='0',hour='2'),
-                        'options': {'queue': 'log_loader_queue'}},
+			'options': {'queue': 'hits_and_visits_queue'},
+	},
+	'ad_stat_loader_prod':{
+                        'task':'api.tasks_adstat_prod.task_adstat_loader_prod',
+                        'schedule':crontab(minute='0',hour='*/4'),
+                        'options': {'queue': 'adstat_queue'}},
+        'ad_stat_loader_test':{
+                        'task':'api.tasks_adstat_test.task_adstat_loader_test',
+                        'schedule':crontab(minute='0',hour='*/4'),
+                        'options': {'queue': 'adstat_queue'}},
 	'CH_get_stat_test':{  # example: 'file-backup'
-                        'task': 'api.tasks_test.task_log_loader_main_test',  # example: 'files.tasks.cleanup'
-                        'schedule': crontab(minute='*/3'),
+                        'task': 'api.tasks_hits_and_visits_test.task_log_loader_main_test',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='*/10'),
                         #'args': (),
-                        'options': {'queue': 'log_loader_queue'},
-        },'ad_stat_loader_test':{
-                        'task':'api.tasks_test.task_adstat_loader_test',
-                        'schedule':crontab(minute='0',hour='*/3'),
-                        'options': {'queue': 'log_loader_queue'}},
-	'CH_get_stat_test_v2':{  # example: 'file-backup'
-                        'task': 'api.tasks_test_v2.task_log_loader_main_test_v2',  # example: 'files.tasks.cleanup'
-                        'schedule': crontab(minute='*/3'),
+                        'options': {'queue': 'hits_and_visits_queue'}},
+	'crm_loader_prod':{  # example: 'file-backup'
+                        'task': 'api.crm_task_prod.crm_loader_task_prod_main',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/1'),
                         #'args': (),
-                        'options': {'queue': 'log_loader_queue'},
-        }
-
+                        'options': {'queue': 'integrations_queue'}},
+'crm_loader_test':{  # example: 'file-backup'
+                        'task': 'api.crm_task_test.crm_loader_task_test_main',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/1'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'incoming_lead_loader_test':{  # example: 'file-backup'
+                        'task': 'api.incoming_lead_task_test.task_incoming_lead_loader_main_test',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'incoming_lead_loader_prod':{  # example: 'file-backup'
+                        'task': 'api.incoming_lead_task_prod.task_incoming_lead_loader_main_prod',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'vk_ads_loader_prod':{  # example: 'file-backup'
+                        'task': 'api.task_vk_ads_prod.task_vk_ads_loader_prod',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'vk_ads_loader_test':{  # example: 'file-backup'
+                        'task': 'api.task_vk_ads_test.task_vk_ads_loader_test',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'facebook_loader_prod':{  # example: 'file-backup'
+                        'task': 'api.task_facebook_prod.task_facebook_loader_prod',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'facebook_loader_test':{  # example: 'file-backup'
+                        'task': 'api.task_facebook_test.task_facebook_loader_test',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'mytarget_loader_prod':{  # example: 'file-backup'
+                        'task': 'api.task_mytarget_prod.task_mytarget_loader_prod',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'mytarget_loader_test':{  # example: 'file-backup'
+                        'task': 'api.task_mytarget_test.task_mytarget_loader_test',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='*/2'),
+                        #'args': (),
+                        'options': {'queue': 'integrations_queue'}},
+'demo_project_stat_loader_prod':{  # example: 'file-backup'
+                        'task': 'api.task_demo_project_stat_prod.task_demo_project_stat_loader_prod',  # example: 'files.tasks.cleanup'
+                        'schedule': crontab(minute='0',hour='0'),
+                        #'args': (),
+                        'options': {'queue': 'hits_and_visits_queue'}},
 }
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -93,7 +182,7 @@ SECRET_KEY = '@%f+@fq)*-7g6t*s0@w(mie#tr6u-7+b-rf5#5svu3^(+3nh6r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['database.smartanalytics.io']
+ALLOWED_HOSTS = ['database.smartanalytics.io','api-stat.smartanalytics.io','dev-database.smartanalytics.io','dev-api-stat.smartanalytics.io','46.4.81.36',]
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -125,10 +214,11 @@ INSTALLED_APPS = [
     #'djcelery',
     #'django_celery_beat',
     'api',
-
+    'corsheaders',
     ]
 
 MIDDLEWARE_CLASSES = [
+    'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,6 +226,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Word2Vec.urls'
@@ -215,7 +306,7 @@ STATICFILES_DIRS = [
      os.path.join(BASE_DIR, 'api/static/'),
 ]
 STATIC_ROOT="/home/artur/CHapi/clickhouse/static/"
-
+tsv_log =  os.path.join(BASE_DIR, 'tsv_log/')
 MEDIA_ROOT =  '/home/artur/CHapi/clickhouse/media/'
 
 MEDIA_URL = '/media/'

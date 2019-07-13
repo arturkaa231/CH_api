@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, redirect
 from django.contrib import auth
 from django.template.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
+from Word2Vec.settings import configurator
 # Create your views here.
 
 def  login(request):
@@ -16,10 +17,11 @@ def  login(request):
 
         if user is not None:
             auth.login(request,user)
-            return redirect('login.html',args)
+            args['username']=username
+            return redirect(configurator,args)
 
         else:
-            args['login_error']="User is not found"
+            args['login_error']="Неверные имя или пароль"
             return render_to_response('login.html',args)
 
     else:
@@ -27,7 +29,7 @@ def  login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('/')
+    return redirect(configurator)
 
 def register(request):
     args={}
@@ -39,8 +41,10 @@ def register(request):
             new_user_form.save()
             newuser=auth.authenticate(username=new_user_form.cleaned_data['username'], password=new_user_form.cleaned_data['password2'])
             auth.login(request,newuser)
-            return redirect('/')
+            args['username']=new_user_form.cleaned_data['username']
+            return redirect(configurator,args)
         else:
             args['form']=new_user_form
-            args['error']='Bad password or user already exists'
+            args['error']='Плохой пароль или пользователь уже существует'
     return render_to_response('register.html',args)
+

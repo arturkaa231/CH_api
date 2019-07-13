@@ -1,0 +1,1 @@
+{"dimensions": ["source_medium", "campaignName", "campaignKeyword", "deviceType_standard", "day_of_week", "operatingSystemName", "AdPosition", "campaignContent"], "min_visits": 20, "dims_with_limits": {"campaignKeyword": 20, "deviceType_standard": 3}, "max_dims_in_comb": 3}

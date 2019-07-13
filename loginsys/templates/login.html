@@ -1,26 +1,64 @@
-{% extends 'main.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+    <title>ПП конфигуратор</title>
+    <!-- Подключаем css--->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css" type="text/css" />
+        <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="row"  >
+
+    <div class="navbar-header ">
+        <div class="col-lg-1 ">
+        <a href="{% url 'configurator' %}" class="navbar-brand">Конфигуратор</a>
+        </div>
+    </div>
 
 
-{%  block login %}
+           {%  if username %}
+
+               <div class="col-lg-1 col-lg-offset-6">
+               <div class="col-lg-offset-8"><ul class="nav navbar-nav"> <li><a href="{% url "logout" %}">Выйти({{ username }})</a></li></ul></div>
+
+               </div>
+
+            {% else  %}
+                <div class="col-lg-offset-8"><ul class="nav navbar-nav"> <li><a href="{% url "login" %}">Войти</a></li></ul></div>
+            {% endif %}
+        </div>
+     </div>
+</nav>
+
 
 
     <div class=" col-lg-5 col-lg-offset-2">
         <form role="form" class="" action="{%   url 'login' %}" method="post">
             {% csrf_token %}
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">Имя пользователя</label>
             <input class="form-control" type="text" name="username" id="username"></div>
 
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Пароль</label>
             <input class="form-control" type="password" name="password" id="password"></div>
             {% if login_error %}
 
                 <label class="errors">{{ login_error }}</label>
             {% endif %}
-            <input  class="btn btn-primary btn-md" role="button" type="submit" value="Enter">
-            <div class="label round secondary"><a href="">Register</a> </div>
+            <input  class="btn btn-primary btn-md" role="button" type="submit" value="Ввести">
+            <div class="label round secondary"><a href="{% url 'register' %}">Зарегестрироваться</a> </div>
         </form>
     </div>
 
-{% endblock %}
+</body>

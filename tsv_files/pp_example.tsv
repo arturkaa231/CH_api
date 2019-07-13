@@ -1,0 +1,84 @@
+source_medium	deviceType_standard	day_of_week	operatingSystemName	AdPosition	nb_visits_1	nb_visits_2	nb_conversions_1	nb_conversions_2	conversion_rate_1	conversion_rate_2
+not_set	not_set	Среда	not_set	not_set	22627	0	17518	0	77.42	0
+not_set	not_set	Понедельник	not_set	not_set	20201	0	16290	0	80.64	0
+not_set	not_set	Воскресенье	not_set	not_set	18647	0	12028	0	64.5	0
+not_set	not_set	Вторник	not_set	not_set	20190	0	17954	0	88.93	0
+not_set	not_set	Четверг	not_set	not_set	25960	0	17645	0	67.97	0
+not_set	not_set	Пятница	not_set	not_set	16166	0	15002	0	92.8	0
+not_set	not_set	Суббота	not_set	not_set	27281	0	19983	0	73.25	0
+not_set	not_set	not_set	iOS	not_set	35700	0	22759	0	63.75	0
+not_set	not_set	not_set	Windows	not_set	61439	0	61012	0	99.31	0
+not_set	not_set	not_set	Android	not_set	50677	0	29228	0	57.68	0
+not_set	not_set	not_set	Windows RT	not_set	62	0	45	0	72.58	0
+not_set	not_set	not_set	Unknown	not_set	82	0	20	0	24.39	0
+not_set	not_set	not_set	MocorDroid	not_set	36	0	15	0	41.67	0
+not_set	not_set	not_set	Windows Phone	not_set	569	0	297	0	52.2	0
+not_set	not_set	not_set	Chrome OS	not_set	35	0	42	0	120	0
+not_set	not_set	not_set	Mac	not_set	1943	0	2550	0	131.24	0
+not_set	not_set	not_set	GNU/Linux	not_set	354	0	261	0	73.73	0
+not_set	not_set	not_set	Ubuntu	not_set	128	0	142	0	110.94	0
+not_set	Desktop	not_set	not_set	not_set	63778	0	63917	0	100.22	0
+not_set	Other	not_set	not_set	not_set	1535	0	738	0	48.08	0
+not_set	Mobile	not_set	not_set	not_set	73201	0	42632	0	58.24	0
+not_set	Tablet	not_set	not_set	not_set	12922	0	9133	0	70.68	0
+www.google.co.uk/organic	not_set	not_set	not_set	not_set	24	5	10	4	41.67	80
+www.confaelshop.ru/direct entry	not_set	not_set	not_set	not_set	21	8	23	6	109.52	75
+e.mail.ru/cpc	not_set	not_set	not_set	not_set	0	37	0	31	0	83.78
+s4s-eu1.net/referral	not_set	not_set	not_set	not_set	163	201	209	225	128.22	111.94
+localhost/direct entry	not_set	not_set	not_set	not_set	34	8	53	12	155.88	150
+www.yandex.ru/organic	not_set	not_set	not_set	not_set	291	283	210	231	72.16	81.63
+away.vk.com/referral	not_set	not_set	not_set	not_set	438	116	267	84	60.96	72.41
+tpc.googlesyndication.com/referral	not_set	not_set	not_set	not_set	2000	535	414	178	20.7	33.27
+google/cpc	not_set	not_set	not_set	not_set	922	363	329	158	35.68	43.53
+sendsay/email	not_set	not_set	not_set	not_set	0	662	0	656	0	99.09
+yandex.ru/organic	not_set	not_set	not_set	not_set	1939	686	1433	569	73.9	82.94
+www-segodnya-ua.cdn.ampproject.org/referral	not_set	not_set	not_set	not_set	14	50	3	6	21.43	12
+productcenter.ru/referral	not_set	not_set	not_set	not_set	22	11	18	11	81.82	100
+none/direct entry	not_set	not_set	not_set	not_set	10066	4798	3555	2156	35.32	44.94
+127.0.0.1/referral	not_set	not_set	not_set	not_set	24	0	0	0	0	0
+www.lakomie.ru/referral	not_set	not_set	not_set	not_set	78	35	48	24	61.54	68.57
+confael_ru_im/newsletter	not_set	not_set	not_set	not_set	41	6	50	10	121.95	166.67
+promokodus/partner	not_set	not_set	not_set	not_set	42	31	36	22	85.71	70.97
+none	not_set	not_set	not_set	not_set	139260	46842	66399	30341	47.68	64.77
+confaelshop.ru/direct entry	not_set	not_set	not_set	not_set	5422	2235	3360	1852	61.97	82.86
+www.bing.com/organic	not_set	not_set	not_set	not_set	35	17	14	10	40	58.82
+www.google.by/organic	not_set	not_set	not_set	not_set	40	6	19	2	47.5	33.33
+www.google.kz/organic	not_set	not_set	not_set	not_set	1246	83	183	35	14.69	42.17
+www.googleadservices.com/referral	not_set	not_set	not_set	not_set	46	11	16	11	34.78	100
+spb.confaelshop.ru/direct entry	not_set	not_set	not_set	not_set	44	23	24	23	54.55	100
+e.mail.ru/referral	not_set	not_set	not_set	not_set	31	11	31	11	100	100
+none/cpc	not_set	not_set	not_set	not_set	5	28	1	17	20	60.71
+none/campaigns	not_set	not_set	not_set	not_set	29	67	18	31	62.07	46.27
+yandex.ru/cpc	not_set	not_set	not_set	not_set	1	51	0	45	0	88.24
+boombate.com/referral	not_set	not_set	not_set	not_set	34	0	32	0	94.12	0
+www.google.com/organic	not_set	not_set	not_set	not_set	1958	479	715	265	36.52	55.32
+instagram/cpc	not_set	not_set	not_set	not_set	28	4	14	3	50	75
+www.nur.kz/referral	not_set	not_set	not_set	not_set	30	26	13	12	43.33	46.15
+yandex.ru/referral	not_set	not_set	not_set	not_set	74	36	55	24	74.32	66.67
+www.google.com.ua/organic	not_set	not_set	not_set	not_set	69	26	31	10	44.93	38.46
+www-edimdoma-ru.cdn.ampproject.org/referral	not_set	not_set	not_set	not_set	24	0	3	0	12.5	0
+l.instagram.com/referral	not_set	not_set	not_set	not_set	20	36	19	47	95	130.56
+instagram/group	not_set	not_set	not_set	not_set	123	1	57	0	46.34	0
+go.mail.ru/referral	not_set	not_set	not_set	not_set	59	26	27	20	45.76	76.92
+clk.golinks.org/referral	not_set	not_set	not_set	not_set	23	3	8	2	34.78	66.67
+l.facebook.com/referral	not_set	not_set	not_set	not_set	22	39	0	26	0	66.67
+www.confael.ru/referral	not_set	not_set	not_set	not_set	4353	1850	6086	2844	139.81	153.73
+confaelshop.ru/campaigns	not_set	not_set	not_set	not_set	192	165	241	184	125.52	111.52
+www.youtube.com/referral	not_set	not_set	not_set	not_set	64	97	16	39	25	40.21
+vk/cpc	not_set	not_set	not_set	not_set	710	125	507	102	71.41	81.6
+yandex/cpc	not_set	not_set	not_set	not_set	30121	12865	13840	7327	45.95	56.95
+googleads.g.doubleclick.net/referral	not_set	not_set	not_set	not_set	943	350	135	75	14.32	21.43
+vk/group	not_set	not_set	not_set	not_set	91	4	89	4	97.8	100
+im/newsletter	not_set	not_set	not_set	not_set	2853	678	2728	631	95.62	93.07
+criteo/retargeting	not_set	not_set	not_set	not_set	42	617	15	366	35.71	59.32
+yabs.yandex.ru/cpc	not_set	not_set	not_set	not_set	31	187	40	115	129.03	61.5
+youtube.com/referral	not_set	not_set	not_set	not_set	0	72	0	26	0	36.11
+www.google.ru/organic	not_set	not_set	not_set	not_set	11912	2465	5460	1940	45.84	78.7
+onesignal/webpush	not_set	not_set	not_set	not_set	0	22	0	15	0	68.18
+googleads.g.doubleclick.net/campaigns	not_set	not_set	not_set	not_set	42285	15200	8246	4041	19.5	26.59
+com.google.android.googlequicksearchbox/organic	not_set	not_set	not_set	not_set	1892	423	673	269	35.57	63.59
+not_set	not_set	not_set	not_set	1t3	43	0	42	0	97.67	0
+not_set	not_set	not_set	not_set	1o1	34	0	52	0	152.94	0
+not_set	not_set	not_set	not_set	1t1	868	0	1620	0	186.64	0
+not_set	not_set	not_set	not_set	none	150501	0	114451	0	76.05	0
+not_set	not_set	not_set	not_set	1t2	163	0	229	0	140.49	0
